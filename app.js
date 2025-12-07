@@ -16,20 +16,18 @@ let operator = null;
 const buttons = document.querySelectorAll('.button');
 const display = document.querySelector(".display");
 const calculator = document.querySelector("#calculator");
+
 calculator.addEventListener("click", (event) => {
   const value = event.target.innerText;
 
-  // Ignore empty clicks on container
   if (!event.target.classList.contains("button")) return;
 
-  // Number button
   if (event.target.classList.contains("number")) {
     current += value;
     display.innerText = current;
     return;
   }
 
-  // Operator button
   if (event.target.classList.contains("operator")) {
     if (value === "C") {
       clearAll();
@@ -41,7 +39,6 @@ calculator.addEventListener("click", (event) => {
     return;
   }
 
-  // Equals button
   if (event.target.classList.contains("equals")) {
     const result = calculate(previous, current, operator);
     display.innerText = result;
@@ -51,7 +48,6 @@ calculator.addEventListener("click", (event) => {
   }
 });
 
-/*-------------------------------- Functions --------------------------------*/
 function calculate(num1, num2, operator) {
   const a = Number(num1);
   const b = Number(num2);
