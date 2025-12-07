@@ -8,23 +8,65 @@
 
 /*-------------------------------- Functions --------------------------------*/
 
-const calculator= document.querySelector('#calculator');
+/*-------------------------------- Variables --------------------------------*/
+let current = "";
+let previous = "";
+let operator = null;
 
-calculator.addEventListener('click', (event) => {
-  // This log is for testing purposes to verify we're getting the correct value
-  // You have to click a button to see this log
-  console.log(event.target.innerText);
+const buttons = document.querySelectorAll('.button');
+const display = document.querySelector(".display");
+const calculator = document.querySelector("#calculator");
+calculator.addEventListener("click", (event) => {
+  const value = event.target.innerText;
 
-  // Example
-  if (event.target.classList.contains('1')) {
-    // Do something with a number
+  // Ignore empty clicks on container
+  if (!event.target.classList.contains("button")) return;
+
+  // Number button
+  if (event.target.classList.contains("number")) {
+    current += value;
+    display.innerText = current;
+    return;
   }
-  if (event.target.classList.contains('1')) {
-    // Do something with a number
+
+  // Operator button
+  if (event.target.classList.contains("operator")) {
+    if (value === "C") {
+      clearAll();
+      return;
+    }
+    previous = current;
+    current = "";
+    operator = value;
+    return;
   }
 
-  // Example
-  if (event.target.innerText === '+') {
-    // Do something with this operator
+  // Equals button
+  if (event.target.classList.contains("equals")) {
+    const result = calculate(previous, current, operator);
+    display.innerText = result;
+    current = String(result);
+    previous = "";
+    operator = null;
   }
 });
+
+/*-------------------------------- Functions --------------------------------*/
+function calculate(num1, num2, operator) {
+  const a = Number(num1);
+  const b = Number(num2);
+
+  if (operator === "+") return a + b;
+  if (operator === "-") return a - b;
+  if (operator === "*") return a * b;
+  if (operator === "/") return b === 0 ? "Error" : a / b;
+
+  return null;
+}
+
+function clearAll() {
+  current = "";
+  previous = "";
+  operator = null;
+  display.innerText = "";
+}
